@@ -1,3 +1,4 @@
+package BackupAutomatizado;
 public class BackupAutomatizado {
     public void copiarArquivos(String origem, String destino) {
         System.out.println("Copiando arquivos de " + origem + " para " + destino);

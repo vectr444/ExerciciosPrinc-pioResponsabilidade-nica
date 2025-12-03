@@ -1,3 +1,4 @@
+package ChatApp;
 public class ChatApp {
     public void enviarMensagem(String texto) {
         System.out.println("Mensagem enviada: " + texto);

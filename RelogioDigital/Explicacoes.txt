@@ -1,0 +1,13 @@
+###Responsabilidades:###
+
+Mostrar a hora na tela
+Método: mostrarHora()
+- Lida com saída para o console.
+
+Salvar a hora em arquivo
+Método: salvarHoraEmArquivo()
+- Lida com I/O de arquivo e persistência.
+
+Controlar/tocar o alarme
+Método: tocarAlarme()
+- Lida com a lógica de alarme (mesmo que simples).

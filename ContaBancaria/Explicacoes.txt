@@ -1,0 +1,14 @@
+###Responsabilidades###
+- Regra de negócio da conta: controle de saldo, depósito e saque (depositar, sacar, saldo).
+- Geração/apresentação de extrato: imprimir o saldo no console (gerarExtrato).
+- Persistência: simular salvar a conta no banco de dados (salvarNoBanco).
+- Notificação: enviar e-mail para o cliente (enviarEmail).
+
+###Como isso facilita mudanças no envio de notificações?###
+
+Com a notificação isolada na classe ServicoEmail, qualquer mudança na forma de envio (por exemplo, 
+trocar e-mail por SMS, push notification, WhatsApp, ou usar um provedor externo diferente) fica concentrada apenas nessa classe, 
+sem impactar a lógica de saldo, extrato ou persistência. A classe ContaBancaria continua cuidando só das regras financeiras, o
+RepositorioConta continua salvando no banco e o GeradorExtrato continua gerando o extrato normalmente. Isso significa que o sistema 
+pode evoluir na parte de comunicação com o cliente sem risco de quebrar o restante do fluxo da conta, além de facilitar testes e trocas 
+de implementação (como criar outro serviço de notificação) sem precisar alterar o código de negócio já consolidado.

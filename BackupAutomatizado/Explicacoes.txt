@@ -1,0 +1,37 @@
+###Responsabilidades:###
+
+Copiar arquivos
+Método: copiarArquivos(String origem, String destino)
+- Lida com operações de sistema de arquivos (cópia).
+
+Compactar arquivos
+Método: compactarArquivos(String destinoZip)
+- Lida com criação de arquivos .zip (ou outro formato de compressão).
+
+Notificação por e-mail
+Método: enviarEmailNotificacao(String destinatario)
+- Lida com comunicação/infra de e-mail.
+
+Registro de log
+Método: registrarLog(String mensagem)
+- Lida com logging/auditoria (gravar mensagens de log em arquivo, console, etc.).
+
+
+### Como o SRP contribui para reutilizar partes desse sistema em outros contextos? ###
+
+Cada classe tem uma única responsabilidade, então pode ser reutilizada de forma independente
+- O CopiadorArquivos pode ser usado em outro sistema que precise copiar arquivos (migração de dados, instalação, sincronização), mesmo sem ter nada a ver com backup.
+- O CompactadorArquivos pode ser reutilizado em um módulo de exportação de relatórios, onde você gera arquivos e depois compacta para o usuário baixar.
+- O NotificadorEmail pode ser usado para qualquer tipo de notificação (erro, alerta, boas-vindas, reset de senha), não só para avisar sobre backup.
+- O GerenciadorLog pode ser compartilhado por várias partes da aplicação, servindo como camada de logging centralizada.
+
+Facilita substituição de implementações:
+- Se quiser mandar notificação por SMS ou WhatsApp em vez de e-mail, é possivel trocar ou complementar o NotificadorEmail com outra classe sem mexer na lógica de cópia.
+
+Diminui acoplamento e aumenta coesão:
+- As classes não precisam conhecer detalhes umas das outras; o orquestrador (BackupService) coordena tudo.
+- Isso torna o código mais fácil de testar (você testa CopiadorArquivos separado, CompactadorArquivos separado, etc.) e de manter.
+
+Evolução independente:
+- É possível evoluir a estratégia de backup (ordem das etapas, condições, retries) mexendo no BackupService, sem alterar as classes de baixo nível.
+- Pode adicionar novos tipos de notificações ou destinos de log sem tocar na lógica de cópia/compactação.

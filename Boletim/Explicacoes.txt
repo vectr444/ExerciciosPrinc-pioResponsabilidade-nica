@@ -1,0 +1,34 @@
+###Múltiplas responsabilidades da classe:###
+
+Representar e calcular informações do boletim
+- Armazena o nome do aluno e as notas
+- Métodos: adicionarNota, calcularMedia, gerarSituacao
+
+Persistência em arquivo
+- Método: salvarEmArquivo
+- Decide o nome do arquivo, o formato do texto e grava em disco.
+
+Envio de comunicação (e-mail)
+- Método: enviarEmail
+- Responsável por enviar/emitir o boletim para um e-mail (mesmo que seja só um println).
+
+###Explicando a refatoração:###
+
+Um motivo único para mudar por classe:
+- Se mudar a regra de aprovação (ex.: média mínima 6, conceito por letras), altera apenas a classe Boletim. 
+- Se mudar a forma de gravação (arquivo → banco de dados → API), altera ou substitui BoletimFileRepository, sem mexer no cálculo da média.
+- Se mudar o meio de envio (e-mail → SMS → notificação push), altera o EmailService ou cria novos serviços.
+
+Melhor manutenção:
+- O código fica mais organizado, com responsabilidades claras.
+- Quando há bug na persistência, olha para o repository; quando há bug na média, olha só para Boletim.
+- Facilita localizar e corrigir problemas sem impacto colateral em outras partes.
+
+Maior reuso:
+- A classe Boletim pode ser reutilizada em diferentes contextos (tela, API, relatórios, testes) sem depender de arquivo ou e-mail.
+- A lógica de envio de e-mail (EmailService) pode ser reutilizada para outros tipos de mensagens, não só boletim.
+- A lógica de salvar (BoletimFileRepository) pode ser trocada por outra implementação (por exemplo, BoletimDatabaseRepository) sem alterar o restante do sistema.
+
+Menor acoplamento:
+- Regras de negócio (média, situação) ficam separadas de detalhes de infraestrutura (I/O de arquivo, e-mail).
+- Torna o sistema mais flexível para evoluir com menos impacto em cadeia.

@@ -1,0 +1,60 @@
+##Responsabilidades##
+
+Regra de envio de mensagem
+enviarMensagem(String texto)
+- Deve representar a lógica de “mandar uma mensagem” (regra de negócio do chat).
+
+Apresentação / UI
+exibirHistorico()
+- Responsável por mostrar o histórico (provavelmente no console, tela, etc.).
+
+Persistência de dados
+salvarMensagemNoBanco(String texto)
+- Responsável por acesso ao banco de dados, SQL, etc.
+
+Notificação de contato
+notificarContato(String contato)
+- Responsável por avisar o outro usuário (push, som, toast, etc.).
+
+###Proposta de refatoração###
+
+Uma possível divisão:
+
+MensagemService → orquestra o envio de mensagens.
+MensagemRepository → salva e lê mensagens do banco.
+HistoricoService → obtém e exibe histórico.
+NotificacaoService → notifica contatos.
+
+
+#MensagemService:
+- depende de: MensagemRepository, NotificacaoService
+
+responsabilidades:
+- enviarMensagem(texto, contato)
+
+#MensagemRepository
+
+responsabilidades:
+- salvarMensagem(texto)
+- listarMensagens()
+
+#HistoricoService
+- depende de: MensagemRepository
+
+responsabilidades:
+- exibirHistorico()
+
+#NotificacaoService
+
+responsabilidades:
+- notificarContato(contato)
+
+### Vantagem para o time de QA (testes) após essa refatoração? ###
+
+Após a refatoração, o time de QA passa a testar o sistema de forma muito mais simples e confiável, 
+porque cada classe tem uma única responsabilidade bem definida. Em vez de testar uma classe “gigante” que envia mensagem, 
+acessa banco, mostra histórico e ainda notifica o contato, o QA consegue criar testes específicos para cada parte: 
+um teste só para a lógica de envio, outro só para persistência, outro só para notificação, 
+e assim por diante. Isso facilita o uso de mocks (simulações) no lugar de banco de dados ou serviços externos, 
+reduz efeitos colaterais indesejados durante os testes e torna mais fácil identificar onde está o problema quando algo falha. 
+Como resultado, os testes ficam mais fáceis de escrever, manter e automatizar, e o diagnóstico de bugs se torna mais rápido e preciso.
